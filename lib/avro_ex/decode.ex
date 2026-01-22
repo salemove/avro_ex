@@ -182,11 +182,11 @@ defmodule AvroEx.Decode do
   defp do_decode(%Primitive{type: :string}, %Context{} = context, data, opts) when is_binary(data) do
     {str, rest} = do_decode(%Primitive{type: :bytes}, context, data, opts)
 
-    if String.valid?(str) do
-      {str, rest}
-    else
-      error({:invalid_string, str})
-    end
+    # if String.valid?(str) do
+    {str, rest}
+    # else
+    # error({:invalid_string, str})
+    # end
   end
 
   defp do_decode(%Record{} = record, %Context{} = context, data, opts) when is_binary(data) do
