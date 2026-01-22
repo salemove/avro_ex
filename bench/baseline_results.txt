@@ -13,30 +13,30 @@ Calculating statistics...
 Formatting results...
 
 Name                       ips        average  deviation         median         99th %
-int                  6299.86 K       0.159 μs  ±2571.49%       0.125 μs        0.21 μs
-long                 5218.71 K       0.192 μs  ±2673.07%       0.167 μs        0.25 μs
-bytes                4698.51 K        0.21 μs  ±2349.47%        0.21 μs        0.29 μs
-string               2939.75 K        0.34 μs  ±1512.37%        0.33 μs        0.42 μs
-array_int_10          842.20 K        1.19 μs   ±419.81%        1.13 μs        1.58 μs
-record_5_fields       727.12 K        1.38 μs   ±337.18%        1.38 μs        1.79 μs
-nested_record         387.30 K        2.58 μs   ±573.22%        2.50 μs        3.33 μs
-array_int_100         101.11 K        9.89 μs    ±23.69%        9.58 μs       16.92 μs
-map_50                 59.68 K       16.76 μs    ±13.37%       16.79 μs       21.83 μs
-array_string_100       48.75 K       20.51 μs    ±38.11%       20.50 μs       27.63 μs
-array_int_1000          9.53 K      104.88 μs     ±7.36%      104.75 μs      131.33 μs
+int                  5930.34 K       0.169 μs  ±2941.46%       0.166 μs        0.21 μs
+long                 5017.19 K       0.199 μs  ±2524.85%       0.167 μs        0.25 μs
+bytes                4269.19 K        0.23 μs  ±2365.89%        0.21 μs        0.33 μs
+string               2760.26 K        0.36 μs  ±1672.58%        0.33 μs        0.46 μs
+record_5_fields       827.40 K        1.21 μs   ±502.73%        1.13 μs        1.46 μs
+array_int_10          773.73 K        1.29 μs   ±494.40%        1.21 μs        1.58 μs
+nested_record         416.40 K        2.40 μs   ±332.68%        2.29 μs        3.04 μs
+array_int_100          94.35 K       10.60 μs    ±23.30%       10.46 μs       18.36 μs
+map_50                 57.05 K       17.53 μs    ±46.84%       17.08 μs       29.88 μs
+array_string_100       45.58 K       21.94 μs    ±80.46%       21.33 μs       35.58 μs
+array_int_1000          8.63 K      115.88 μs    ±39.88%      111.42 μs      199.61 μs
 
 Comparison: 
-int                  6299.86 K
-long                 5218.71 K - 1.21x slower +0.0329 μs
-bytes                4698.51 K - 1.34x slower +0.0541 μs
-string               2939.75 K - 2.14x slower +0.181 μs
-array_int_10          842.20 K - 7.48x slower +1.03 μs
-record_5_fields       727.12 K - 8.66x slower +1.22 μs
-nested_record         387.30 K - 16.27x slower +2.42 μs
-array_int_100         101.11 K - 62.31x slower +9.73 μs
-map_50                 59.68 K - 105.56x slower +16.60 μs
-array_string_100       48.75 K - 129.24x slower +20.36 μs
-array_int_1000          9.53 K - 660.71x slower +104.72 μs
+int                  5930.34 K
+long                 5017.19 K - 1.18x slower +0.0307 μs
+bytes                4269.19 K - 1.39x slower +0.0656 μs
+string               2760.26 K - 2.15x slower +0.194 μs
+record_5_fields       827.40 K - 7.17x slower +1.04 μs
+array_int_10          773.73 K - 7.66x slower +1.12 μs
+nested_record         416.40 K - 14.24x slower +2.23 μs
+array_int_100          94.35 K - 62.86x slower +10.43 μs
+map_50                 57.05 K - 103.96x slower +17.36 μs
+array_string_100       45.58 K - 130.10x slower +21.77 μs
+array_int_1000          8.63 K - 687.23x slower +115.72 μs
 
 Memory usage statistics:
 
@@ -45,9 +45,9 @@ int                     0.172 KB
 long                    0.172 KB - 1.00x memory usage +0 KB
 bytes                    0.35 KB - 2.05x memory usage +0.180 KB
 string                   0.48 KB - 2.77x memory usage +0.30 KB
+record_5_fields          2.09 KB - 12.14x memory usage +1.91 KB
 array_int_10             2.53 KB - 14.73x memory usage +2.36 KB
-record_5_fields          2.49 KB - 14.50x memory usage +2.32 KB
-nested_record            4.88 KB - 28.41x memory usage +4.71 KB
+nested_record            4.29 KB - 24.95x memory usage +4.12 KB
 array_int_100           21.21 KB - 123.41x memory usage +21.04 KB
 map_50                  33.74 KB - 196.32x memory usage +33.57 KB
 array_string_100        46.18 KB - 268.68x memory usage +46.01 KB

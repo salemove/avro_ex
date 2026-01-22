@@ -190,20 +190,11 @@ defmodule AvroEx.Decode do
   end
 
   defp do_decode(%Record{} = record, %Context{} = context, data, opts) when is_binary(data) do
-    {decoded, buffer} =
-      Enum.reduce(record.fields, {[], data}, fn field, {decoded, buffer} ->
-        {val, buff} = do_decode(field, context, buffer, opts)
-        {[val | decoded], buff}
+    {decoded_map, buffer} =
+      Enum.reduce(record.fields, {%{}, data}, fn %Field{name: name} = field, {acc, buffer} ->
+        {val, buffer} = do_decode(field, context, buffer, opts)
+        {Map.put(acc, name, val), buffer}
       end)
-
-    decoded_map =
-      decoded
-      |> Enum.reverse()
-      |> Enum.zip(record.fields)
-      |> Enum.map(fn {val, %Field{name: name}} ->
-        {name, val}
-      end)
-      |> Map.new()
 
     {decoded_map, buffer}
   end
