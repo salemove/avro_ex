@@ -241,7 +241,8 @@ defmodule AvroEx.Decode do
           {[decoded_item | decoded_items], buffer}
         end)
 
-      {Enum.reverse(decoded_items), String.slice(rest, 1..-1//1)}
+      <<_::8, rest::binary>> = rest
+      {Enum.reverse(decoded_items), rest}
     else
       {[], buffer}
     end
@@ -259,7 +260,8 @@ defmodule AvroEx.Decode do
           {[{decoded_key, decoded_value} | decoded_values], buffer}
         end)
 
-      {Map.new(decoded_values), String.slice(rest, 1..-1//1)}
+      <<_::8, rest::binary>> = rest
+      {Map.new(decoded_values), rest}
     else
       {%{}, buffer}
     end
