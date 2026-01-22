@@ -233,7 +233,7 @@ defmodule AvroEx.Decode do
         end)
 
       <<_::8, rest::binary>> = rest
-      {Enum.reverse(decoded_items), rest}
+      {:lists.reverse(decoded_items), rest}
     else
       {[], buffer}
     end
