@@ -1,0 +1,56 @@
+Benchmarking array_int_10 ...
+Benchmarking array_int_100 ...
+Benchmarking array_int_1000 ...
+Benchmarking array_string_100 ...
+Benchmarking bytes ...
+Benchmarking int ...
+Benchmarking long ...
+Benchmarking map_50 ...
+Benchmarking nested_record ...
+Benchmarking record_5_fields ...
+Benchmarking string ...
+Calculating statistics...
+Formatting results...
+
+Name                       ips        average  deviation         median         99th %
+int                  6046.56 K       0.165 μs  ±2892.15%       0.166 μs        0.21 μs
+long                 5133.48 K       0.195 μs  ±2185.59%       0.167 μs        0.25 μs
+bytes                4533.85 K        0.22 μs  ±2432.33%        0.21 μs        0.29 μs
+string               2805.61 K        0.36 μs  ±1640.50%        0.33 μs        0.46 μs
+array_int_10          741.35 K        1.35 μs   ±419.55%        1.29 μs        1.71 μs
+record_5_fields       691.38 K        1.45 μs   ±382.62%        1.38 μs        1.79 μs
+nested_record         357.09 K        2.80 μs   ±225.08%        2.63 μs        5.96 μs
+array_int_100          91.87 K       10.88 μs    ±30.11%       10.46 μs       24.96 μs
+map_50                 58.24 K       17.17 μs    ±14.93%       16.96 μs       27.79 μs
+array_string_100       46.68 K       21.42 μs    ±13.98%       21.17 μs       32.42 μs
+array_int_1000          9.12 K      109.66 μs     ±7.38%      107.83 μs      138.82 μs
+
+Comparison: 
+int                  6046.56 K
+long                 5133.48 K - 1.18x slower +0.0294 μs
+bytes                4533.85 K - 1.33x slower +0.0552 μs
+string               2805.61 K - 2.16x slower +0.191 μs
+array_int_10          741.35 K - 8.16x slower +1.18 μs
+record_5_fields       691.38 K - 8.75x slower +1.28 μs
+nested_record         357.09 K - 16.93x slower +2.64 μs
+array_int_100          91.87 K - 65.81x slower +10.72 μs
+map_50                 58.24 K - 103.82x slower +17.00 μs
+array_string_100       46.68 K - 129.53x slower +21.26 μs
+array_int_1000          9.12 K - 663.05x slower +109.49 μs
+
+Memory usage statistics:
+
+Name                Memory usage
+int                     0.172 KB
+long                    0.172 KB - 1.00x memory usage +0 KB
+bytes                    0.35 KB - 2.05x memory usage +0.180 KB
+string                   0.48 KB - 2.77x memory usage +0.30 KB
+array_int_10             2.55 KB - 14.82x memory usage +2.38 KB
+record_5_fields          2.49 KB - 14.50x memory usage +2.32 KB
+nested_record            4.90 KB - 28.50x memory usage +4.73 KB
+array_int_100           21.32 KB - 124.05x memory usage +21.15 KB
+map_50                  33.79 KB - 196.59x memory usage +33.62 KB
+array_string_100        46.26 KB - 269.14x memory usage +46.09 KB
+array_int_1000         210.24 KB - 1223.23x memory usage +210.07 KB
+
+**All measurements for memory usage were the same**
