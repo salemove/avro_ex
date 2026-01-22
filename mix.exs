@@ -38,7 +38,8 @@ defmodule AvroEx.Mixfile do
       {:ex_doc, "~> 0.20", only: :dev, runtime: false},
       {:stream_data, "~> 0.5", only: [:dev, :test]},
       {:decimal, "~> 2.0", optional: true},
-      {:uniq, "~> 0.6"}
+      {:uniq, "~> 0.6"},
+      {:benchee, "~> 1.0", only: :dev}
     ]
   end
 
