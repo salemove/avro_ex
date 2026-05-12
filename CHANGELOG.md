@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased
+
+### Fixed
+
+- Decoding maps encoded with the blocked (negative-count) framing returned an
+  empty map instead of the encoded entries. Map decoding now reads the optional
+  block byte size after a negative count, matching how Array decoding already
+  worked.
+
+### Added
+
+- `AvroEx.encode/3` now honors `:include_block_byte_size` for Map values, so
+  Maps can be round-tripped using the blocked framing (Arrays already did).
+
 ## v2.2.0 - July 31st, 2024
 
 ### Added
