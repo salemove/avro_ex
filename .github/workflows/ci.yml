@@ -8,18 +8,30 @@ on:
       - "main"
 jobs:
   test:
-    name: Build and test
+    name: Build and test (Elixir ${{ matrix.elixir }} / OTP ${{ matrix.otp }})
     runs-on: ubuntu-22.04
 
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Lowest Elixir still supported upstream (last 5 minor releases)
+          - elixir: "1.16"
+            otp: "26.2"
+            check_quality: false
+          - elixir: "1.18.4"
+            otp: "27.2"
+            check_quality: true
+
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Set up Elixir
         uses: erlef/setup-beam@v1.15
         with:
-          elixir-version: "1.13.3" # Define the elixir version [required]
-          otp-version: "24.2.1" # Define the OTP version [required]
+          elixir-version: ${{ matrix.elixir }}
+          otp-version: ${{ matrix.otp }}
       - name: Restore dependencies cache
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: deps
           key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
@@ -28,35 +40,38 @@ jobs:
         run: mix deps.get
       - name: Run tests
         run: mix test
+      # Formatter output differs between Elixir versions — check on one only
       - name: Check formatting
+        if: matrix.check_quality
         run: mix format --check-formatted
       - name: Credo
+        if: matrix.check_quality
         run: mix credo
 
   dialyzer:
     name: Run Dialyzer for type checking
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Set mix file hash
         id: set_vars
         run: |
           mix_hash="${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}"
-          echo "::set-output name=mix_hash::$mix_hash"
+          echo "mix_hash=$mix_hash" >> "$GITHUB_OUTPUT"
       - name: Cache PLT files
         id: cache-plt
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: |
             _build/dev/*.plt
             _build/dev/*.plt.hash
-          key: plt-cache-${{ steps.set_vars.outputs.mix_hash }}
+          key: plt-cache-otp27.2-elixir1.18.4-${{ steps.set_vars.outputs.mix_hash }}
           restore-keys: |
-            plt-cache-
+            plt-cache-otp27.2-elixir1.18.4-
       - name: Run Dialyzer
         uses: erlef/setup-beam@v1.15
         with:
-          elixir-version: "1.13.3" # Define the elixir version [required]
-          otp-version: "24.2.1" # Define the OTP version [required]
+          elixir-version: "1.18.4"
+          otp-version: "27.2"
       - run: mix deps.get
       - run: mix dialyzer
