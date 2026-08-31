@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Changed
+
+- Allow `decimal` 3.x. The library only calls `Decimal.new/3` and reads
+  struct fields, both unchanged in 3.0.
+
 ### Fixed
 
 - Decoding maps encoded with the blocked (negative-count) framing returned an
