@@ -138,7 +138,12 @@ defmodule AvroEx.Encode.Test do
     test "16 byte fixed uuid" do
       assert %AvroEx.Schema{} =
                schema =
-               AvroEx.decode_schema!(%{"type" => "fixed", "size" => 16, "name" => "fixed_uuid", "logicalType" => "uuid"})
+               AvroEx.decode_schema!(%{
+                 "type" => "fixed",
+                 "size" => 16,
+                 "name" => "fixed_uuid",
+                 "logicalType" => "uuid"
+               })
 
       # Example from https://en.wikipedia.org/wiki/Universally_unique_identifier#Textual_representation
       canonical_string = "550e8400-e29b-41d4-a716-446655440000"
