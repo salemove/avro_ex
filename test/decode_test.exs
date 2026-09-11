@@ -196,8 +196,7 @@ defmodule AvroEx.Decode.Test do
     test "map with negative count" do
       {:ok, schema} = AvroEx.decode_schema(~S({"type": "map", "values": ["null", "int"]}))
 
-      {:ok, encoded_map} =
-        AvroEx.encode(schema, %{"a" => 1, "b" => nil, "c" => 3}, include_block_byte_size: true)
+      {:ok, encoded_map} = AvroEx.encode(schema, %{"a" => 1, "b" => nil, "c" => 3}, include_block_byte_size: true)
 
       assert {:ok, %{"a" => 1, "b" => nil, "c" => 3}} = AvroEx.decode(schema, encoded_map)
     end

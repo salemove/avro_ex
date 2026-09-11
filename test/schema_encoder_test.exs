@@ -6,21 +6,21 @@ defmodule AvroEx.Schema.EncoderTest do
       input = "int"
 
       assert schema = AvroEx.decode_schema!(input)
-      assert AvroEx.encode_schema(schema) == ~S({"type":"int"})
+      assert_encoded(schema, ~S({"type":"int"}))
     end
 
     test "logical types" do
       input = %{"type" => "int", "logicalType" => "date"}
 
       assert schema = AvroEx.decode_schema!(input)
-      assert AvroEx.encode_schema(schema) == ~S({"type":"int","logicalType":"date"})
+      assert_encoded(schema, ~S({"type":"int","logicalType":"date"}))
     end
 
     test "enum" do
       input = %{"type" => "enum", "symbols" => ["a"], "name" => "cool"}
 
       assert schema = AvroEx.decode_schema!(input)
-      assert AvroEx.encode_schema(schema) == ~S({"name":"cool","symbols":["a"],"type":"enum"})
+      assert_encoded(schema, ~S({"name":"cool","symbols":["a"],"type":"enum"}))
 
       all = %{
         "type" => "enum",
@@ -34,8 +34,10 @@ defmodule AvroEx.Schema.EncoderTest do
 
       assert schema = AvroEx.decode_schema!(all)
 
-      assert AvroEx.encode_schema(schema) ==
-               ~S({"aliases":["alias"],"doc":"docs","name":"cool","namespace":"namespace","symbols":["a"],"type":"enum","extra":"val"})
+      assert_encoded(
+        schema,
+        ~S({"aliases":["alias"],"doc":"docs","name":"cool","namespace":"namespace","symbols":["a"],"type":"enum","extra":"val"})
+      )
     end
 
     test "map" do
@@ -43,18 +45,18 @@ defmodule AvroEx.Schema.EncoderTest do
       input = %{"type" => "map", "values" => "int"}
 
       assert schema = AvroEx.decode_schema!(input)
-      assert AvroEx.encode_schema(schema) == ~S({"type":"map","values":{"type":"int"}})
+      assert_encoded(schema, ~S({"type":"map","values":{"type":"int"}}))
 
       # complex map
       complex = %{"type" => "map", "values" => ["null", "int"]}
 
       assert schema = AvroEx.decode_schema!(complex)
-      assert AvroEx.encode_schema(schema) == ~S({"type":"map","values":[{"type":"null"},{"type":"int"}]})
+      assert_encoded(schema, ~S({"type":"map","values":[{"type":"null"},{"type":"int"}]}))
 
       all = %{"type" => "map", "values" => "int", "default" => %{"a" => 1}, "extra" => "val"}
 
       assert schema = AvroEx.decode_schema!(all)
-      assert AvroEx.encode_schema(schema) == ~S({"default":{"a":1},"type":"map","values":{"type":"int"},"extra":"val"})
+      assert_encoded(schema, ~S({"default":{"a":1},"type":"map","values":{"type":"int"},"extra":"val"}))
     end
 
     test "record" do
@@ -63,16 +65,20 @@ defmodule AvroEx.Schema.EncoderTest do
 
       assert schema = AvroEx.decode_schema!(input)
 
-      assert AvroEx.encode_schema(schema) ==
-               "{\"fields\":[{\"name\":\"a\",\"type\":{\"type\":\"string\"}}],\"name\":\"test\",\"type\":\"record\"}"
+      assert_encoded(
+        schema,
+        "{\"fields\":[{\"name\":\"a\",\"type\":{\"type\":\"string\"}}],\"name\":\"test\",\"type\":\"record\"}"
+      )
 
       # Complex record
       complex = %{"type" => "record", "name" => "test", "fields" => [%{"name" => "a", "type" => ["int", "string"]}]}
 
       assert schema = AvroEx.decode_schema!(complex)
 
-      assert AvroEx.encode_schema(schema) ==
-               "{\"fields\":[{\"name\":\"a\",\"type\":[{\"type\":\"int\"},{\"type\":\"string\"}]}],\"name\":\"test\",\"type\":\"record\"}"
+      assert_encoded(
+        schema,
+        "{\"fields\":[{\"name\":\"a\",\"type\":[{\"type\":\"int\"},{\"type\":\"string\"}]}],\"name\":\"test\",\"type\":\"record\"}"
+      )
 
       all = %{
         "type" => "record",
@@ -95,8 +101,10 @@ defmodule AvroEx.Schema.EncoderTest do
 
       assert schema = AvroEx.decode_schema!(all)
 
-      assert AvroEx.encode_schema(schema) ==
-               "{\"aliases\":[\"a_map\"],\"doc\":\"docs!\",\"fields\":[{\"aliases\":[\"first\"],\"default\":1,\"doc\":\"field\",\"name\":\"one\",\"type\":{\"type\":\"int\"},\"meta\":\"meta\"}],\"name\":\"all\",\"namespace\":\"beam.community\",\"type\":\"record\",\"extra\":\"val\"}"
+      assert_encoded(
+        schema,
+        "{\"aliases\":[\"a_map\"],\"doc\":\"docs!\",\"fields\":[{\"aliases\":[\"first\"],\"default\":1,\"doc\":\"field\",\"name\":\"one\",\"type\":{\"type\":\"int\"},\"meta\":\"meta\"}],\"name\":\"all\",\"namespace\":\"beam.community\",\"type\":\"record\",\"extra\":\"val\"}"
+      )
     end
 
     test "array" do
@@ -104,12 +112,12 @@ defmodule AvroEx.Schema.EncoderTest do
       input = %{"type" => "array", "items" => "int"}
 
       assert schema = AvroEx.decode_schema!(input)
-      assert AvroEx.encode_schema(schema) == ~S({"items":{"type":"int"},"type":"array"})
+      assert_encoded(schema, ~S({"items":{"type":"int"},"type":"array"}))
 
       all = %{"type" => "array", "items" => "int", "default" => [1, 2, 3]}
 
       assert schema = AvroEx.decode_schema!(all)
-      assert AvroEx.encode_schema(schema) == ~S({"default":[1,2,3],"items":{"type":"int"},"type":"array"})
+      assert_encoded(schema, ~S({"default":[1,2,3],"items":{"type":"int"},"type":"array"}))
     end
 
     test "fixed" do
@@ -117,7 +125,7 @@ defmodule AvroEx.Schema.EncoderTest do
       input = %{"type" => "fixed", "name" => "double", "size" => 2}
 
       assert schema = AvroEx.decode_schema!(input)
-      assert AvroEx.encode_schema(schema) == ~S({"name":"double","size":2,"type":"fixed"})
+      assert_encoded(schema, ~S({"name":"double","size":2,"type":"fixed"}))
 
       all = %{
         "type" => "fixed",
@@ -131,8 +139,10 @@ defmodule AvroEx.Schema.EncoderTest do
 
       assert schema = AvroEx.decode_schema!(all)
 
-      assert AvroEx.encode_schema(schema) ==
-               "{\"aliases\":[\"two\"],\"doc\":\"docs\",\"name\":\"double\",\"namespace\":\"beam.community\",\"size\":2,\"type\":\"fixed\",\"extra\":\"val\"}"
+      assert_encoded(
+        schema,
+        "{\"aliases\":[\"two\"],\"doc\":\"docs\",\"name\":\"double\",\"namespace\":\"beam.community\",\"size\":2,\"type\":\"fixed\",\"extra\":\"val\"}"
+      )
     end
 
     test "reference" do
@@ -147,14 +157,16 @@ defmodule AvroEx.Schema.EncoderTest do
 
       assert schema = AvroEx.decode_schema!(input)
 
-      assert AvroEx.encode_schema(schema) ==
-               "{\"fields\":[{\"name\":\"value\",\"type\":{\"type\":\"int\"}},{\"name\":\"next\",\"type\":[{\"type\":\"null\"},\"LinkedList\"]}],\"name\":\"LinkedList\",\"type\":\"record\"}"
+      assert_encoded(
+        schema,
+        "{\"fields\":[{\"name\":\"value\",\"type\":{\"type\":\"int\"}},{\"name\":\"next\",\"type\":[{\"type\":\"null\"},\"LinkedList\"]}],\"name\":\"LinkedList\",\"type\":\"record\"}"
+      )
     end
 
     test "union" do
       input = ["null", "int"]
       assert schema = AvroEx.decode_schema!(input)
-      assert AvroEx.encode_schema(schema) == ~S([{"type":"null"},{"type":"int"}])
+      assert_encoded(schema, ~S([{"type":"null"},{"type":"int"}]))
     end
 
     test "complex" do
@@ -169,8 +181,10 @@ defmodule AvroEx.Schema.EncoderTest do
 
       assert schema = AvroEx.decode_schema!(input)
 
-      assert AvroEx.encode_schema(schema) ==
-               "{\"fields\":[{\"name\":\"a\",\"type\":[{\"type\":\"null\"},{\"name\":\"double\",\"size\":2,\"type\":\"fixed\"}]},{\"name\":\"b\",\"type\":{\"type\":\"map\",\"values\":{\"type\":\"string\"}}}],\"name\":\"complex\",\"type\":\"record\"}"
+      assert_encoded(
+        schema,
+        "{\"fields\":[{\"name\":\"a\",\"type\":[{\"type\":\"null\"},{\"name\":\"double\",\"size\":2,\"type\":\"fixed\"}]},{\"name\":\"b\",\"type\":{\"type\":\"map\",\"values\":{\"type\":\"string\"}}}],\"name\":\"complex\",\"type\":\"record\"}"
+      )
     end
   end
 
@@ -224,5 +238,11 @@ defmodule AvroEx.Schema.EncoderTest do
       assert AvroEx.encode_schema(schema, canonical: true) ==
                "{\"name\":\"beam.community.MyRecord\",\"type\":\"record\",\"fields\":[{\"name\":\"a\",\"type\":{\"name\":\"beam.community.MyFixed\",\"type\":\"fixed\",\"size\":10}},{\"name\":\"b\",\"type\":{\"name\":\"java.community.MyEnum\",\"type\":\"enum\",\"symbols\":[\"one\"]}},{\"name\":\"c\",\"type\":{\"type\":\"map\",\"values\":\"int\"}},{\"name\":\"d\",\"type\":{\"type\":\"array\",\"items\":\"int\"}},{\"name\":\"e\",\"type\":\"int\"}]}"
     end
+  end
+
+  # Non-canonical encoding inherits map key order, which is not stable
+  # across OTP releases, so compare decoded terms instead of raw strings.
+  defp assert_encoded(schema, expected) do
+    assert Jason.decode!(AvroEx.encode_schema(schema)) == Jason.decode!(expected)
   end
 end
