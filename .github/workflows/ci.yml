@@ -6,10 +6,15 @@ on:
   push:
     branches:
       - "main"
+
+permissions: {}
+
 jobs:
   test:
     name: Build and test (Elixir ${{ matrix.elixir }} / OTP ${{ matrix.otp }})
     runs-on: ubuntu-22.04
+    permissions:
+      contents: read # actions/checkout
 
     strategy:
       fail-fast: false
@@ -51,6 +56,8 @@ jobs:
   dialyzer:
     name: Run Dialyzer for type checking
     runs-on: ubuntu-22.04
+    permissions:
+      contents: read # actions/checkout
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - name: Set mix file hash
